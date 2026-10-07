@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Love ❤️</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background: linear-gradient(135deg, #ff758c, #ff7eb3);
+        color: white;
+    }
+
+    .page {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .box {
+        width: 90%;
+        max-width: 500px;
+        padding: 30px;
+    }
+
+    /* PHOTO */
+
+    .photo {
+        width: 280px;
+        height: 280px;
+        object-fit: cover;
+        border-radius: 25px;
+        border: 5px solid white;
+        box-shadow: 0 10px 35px rgba(0,0,0,0.3);
+        animation: photoMove 3s infinite alternate;
+    }
+
+    @keyframes photoMove {
+        from {
+            transform: scale(1) rotate(-2deg);
+        }
+
+        to {
+            transform: scale(1.06) rotate(2deg);
+        }
+    }
+
+    h1 {
+        font-size: 38px;
+        margin: 20px 0;
+    }
+
+    p {
+        font-size: 20px;
+    }
+
+    /* QUIZ */
+
+    #quiz {
+        display: none;
+    }
+
+    .buttons {
+        margin-top: 30px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    button {
+        border: none;
+        border-radius: 40px;
+        padding: 15px 35px;
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    #yes {
+        background: white;
+        color: #ff4081;
+    }
+
+    #no {
+        background: #333;
+        color: white;
+    }
+
+    /* SURPRISE */
+
+    #surprise {
+        display: none;
+    }
+
+    .love {
+        font-size: 45px;
+        animation: heartbeat 1s infinite;
+    }
+
+    @keyframes heartbeat {
+        0%, 100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.15);
+        }
+    }
+
+    /* HEARTS */
+
+    .heart {
+        position: fixed;
+        bottom: -50px;
+        pointer-events: none;
+        animation: floatUp 5s linear forwards;
+    }
+
+    @keyframes floatUp {
+        0% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 1;
+        }
+
+        100% {
+            transform: translateY(-110vh) rotate(360deg);
+            opacity: 0;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="page">
+    <div class="box">
+
+        <!-- FIRST PHOTO -->
+        <div id="start">
+
+            <img src="photo_2026-10-07_11-31-05.jpg" class="photo">
+
+            <h1>Hey My Love ❤️</h1>
+
+            <p>I have a little question for you... 🥰</p>
+
+            <button onclick="startQuiz()">
+                Click Me 💕
+            </button>
+
+        </div>
+
+
+        <!-- QUIZ -->
+        <div id="quiz">
+
+            <h1>Do You Love Me? ❤️</h1>
+
+            <p>Choose your answer carefully 😏</p>
+
+            <div class="buttons">
+
+                <button id="yes" onclick="yesAnswer()">
+                    YES ❤️
+                </button>
+
+                <button id="no">
+                    NO 😜
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- FINAL SURPRISE -->
+        <div id="surprise">
+
+            <img src="photo111.jpg" class="photo">
+
+            <div class="love">❤️ ❤️ ❤️</div>
+
+            <h1>I Knew It! 😍</h1>
+
+            <p>
+                I Love You So Much! ❤️
+                <br><br>
+                You are my favorite person.
+                <br>
+                Forever and always. 💕
+            </p>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- MUSIC -->
+<audio id="music" loop>
+    <source src="Music.mp3" type="audio/mpeg">
+</audio>
+
+
+<script>
+
+const noButton = document.getElementById("no");
+
+
+// CLICK ME
+function startQuiz() {
+
+    document.getElementById("start").style.display = "none";
+    document.getElementById("quiz").style.display = "block";
+
+    // Music starts after user interaction
+    document.getElementById("music").play().catch(() => {});
+}
+
+
+// NO BUTTON RUNS AWAY
+function moveNo() {
+
+    const buttonWidth = noButton.offsetWidth;
+    const buttonHeight = noButton.offsetHeight;
+
+    const maxX = window.innerWidth - buttonWidth - 10;
+    const maxY = window.innerHeight - buttonHeight - 10;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noButton.style.position = "fixed";
+    noButton.style.left = x + "px";
+    noButton.style.top = y + "px";
+}
+
+
+// Works on computer
+noButton.addEventListener("mouseover", moveNo);
+
+
+// Works on phone
+noButton.addEventListener("touchstart", function(event) {
+    event.preventDefault();
+    moveNo();
+});
+
+
+// YES ANSWER
+function yesAnswer() {
+
+    document.getElementById("quiz").style.display = "none";
+    document.getElementById("surprise").style.display = "block";
+
+    document.getElementById("music").play().catch(() => {});
+
+    // Start hearts
+    setInterval(createHeart, 200);
+}
+
+
+// CREATE HEARTS
+function createHeart() {
+
+    const heart = document.createElement("div");
+
+    heart.className = "heart";
+
+    const hearts = ["❤️", "💕", "💖", "💗", "💓"];
+
+    heart.innerHTML =
+        hearts[Math.floor(Math.random() * hearts.length)];
+
+    heart.style.left = Math.random() * 100 + "vw";
+
+    heart.style.fontSize =
+        (20 + Math.random() * 35) + "px";
+
+    heart.style.animationDuration =
+        (3 + Math.random() * 3) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 6000);
+}
+
+</script>
+
+</body>
+</html>
